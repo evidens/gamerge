@@ -269,7 +269,7 @@ function sendEmailToList (listName) {
       try {
         MailApp.sendEmail(address, template.subject, plainTextMsg , advancedArgs);
         // Set sent status
-        contactSheet.getRange(i+1,statusCol+1).setValue(SENT_STATUS);
+        contactSheet.getRange(i+1,statusCol+1).setValue(STATUS_SENT);
         numSent += 1;
       } catch (e) {
         errLog += e + "\n";
