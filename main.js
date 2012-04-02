@@ -199,20 +199,16 @@ function prepareAttachments(aSpread) {
     attachMode = attachItem[1];
     attachURL = attachItem[2];
     fileType = attachItem[3];
-    Logger.log(attachName + ': ' + attachMode + ', ' + attachURL + ', ' + fileType);
     if (attachURL && attachURL.length > 0) {
-      attachContent = UrlFetchApp.fetch(attachURL).getBlob().setName(attachName);
+      attachContent = UrlFetchApp.fetch(attachURL).getContent();
+      Logger.log(attachName + ': ' + attachMode + ', ' + attachURL + ', ' + fileType);
     } else {
       Logger.log('Skipping ' + attachName + '. No URL.');
       continue;
     }
-    // Allow manual content type override
-    if (fileType !== null) {
-      attachContent.setContentType(fileType);
-    }
     // Add as either a regular attachment or an inline image
     if (attachMode.indexOf(FILE_ATTACH) !== -1) {
-      attachments.push({fileName:attachName, content: attachContent});
+      attachments.push({fileName: attachName, mimeType: fileType,content: attachContent});
     } else if (attachMode.indexOf(FILE_INLINE) !== -1) {
       inlineImages[attachName] = attachContent;
     }
