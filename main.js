@@ -5,7 +5,10 @@
  * @website https://github.com/beyondwords/gamerge
  */
 
-var SENT_STATUS         = 'Sent',
+var STATUS_SENT = 'Sent',
+    STATUS_IGNORE = 'Ignore',
+    STATUS_ERROR = 'Error',
+    IGNORE_STATUSES = [STATUS_SENT, STATUS_ERROR, STATUS_IGNORE],
     CONTACTS_SHEET      = 'Contact List',
     TEST_CONTACTS_SHEET = 'Test Contact List',
     // Attachments types for appending files to email
@@ -257,7 +260,7 @@ function sendEmailToList (listName) {
     row = mergeData[i];
     status = row[statusCol];
     address = row[emailCol];
-    if (address !== "" && status !== SENT_STATUS) {
+    if (address !== "" && IGNORE_STATUSES.indexOf(status) === -1) {
       // Create customised email
       htmlMsg = mergeTemplate(template.body, searchList, row, colKeys);
       plainTextMsg = mergeTemplate(template.plainText, searchList, row, colKeys);
